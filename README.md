@@ -1,2 +1,2 @@
 # EasyRest
-Easy php REST apps
+Simple PHP base for REST Apps
