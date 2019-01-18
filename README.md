@@ -1,4 +1,4 @@
 # EasyRest
-Simple PHP base for REST Apps
+Simple basis for REST Apps written in PHP
 
-**Docs Todo**
+**Todo Docs**
