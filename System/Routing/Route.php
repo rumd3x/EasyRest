@@ -1,13 +1,8 @@
 <?php
 namespace EasyRest\System\Routing;
 
-use Closure;
-use ReflectionMethod;
-use ReflectionFunction;
 use EasyRest\System\Core;
-use EasyRest\System\Request;
 use Tightenco\Collect\Support\Collection;
-use EasyRest\System\Exceptions\InvalidRouteActionException;
 
 final class Route
 {
@@ -32,6 +27,11 @@ final class Route
     private $action;
 
     /**
+     * @var Collection
+     */
+    private $middlewares;
+
+    /**
      * @SuppressWarnings(PHPMD.StaticAccess)
      *
      * @param string $method
@@ -51,18 +51,35 @@ final class Route
         $router->addRoute($this);
     }
 
+    /**
+     * @return string
+     */
     public function getMethod()
     {
         return $this->method;
     }
 
+    /**
+     * @return string
+     */
     public function getUri()
     {
         return $this->uri;
     }
 
+    /**
+     * @return mixed
+     */
     public function getAction()
     {
         return $this->action;
+    }
+
+    /**
+     * @return Collection
+     */
+    public function getMiddlewares()
+    {
+        return $this->middlewares;
     }
 }
