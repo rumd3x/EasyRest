@@ -1,9 +1,7 @@
 <?php
 namespace EasyRest\System\Routing;
 
-use Closure;
 use EasyRest\System\Request;
-use EasyRest\System\Routing\Route;
 use Tightenco\Collect\Support\Collection;
 use EasyRest\System\Exceptions\RouteNotFoundException;
 
@@ -36,8 +34,18 @@ final class Router
      */
     public function handle(Request $request)
     {
-        $this->sortRoutes();
+        $route = $this->findRoute($request);
+        $params = $this->makeRequestParams($request, $route);
+        $caller = (new CallerFinder($route))->getCaller()->call($params);
+    }
 
+    /**
+     * @return Route
+     * @throws RouteNotFoundException
+     */
+    private function findRoute(Request $request)
+    {
+        $this->sortRoutes();
         $match = false;
         foreach ($this->routes as $route) {
             $match = $this->evalRequest($request, $route);
@@ -50,12 +58,7 @@ final class Router
             throw new RouteNotFoundException($request);
         }
 
-        $params = $this->makeRequestParams($request, $route);
-        if ($route->getAction() instanceof Closure) {
-            return (new ClosureCaller($route, $params))->call();
-        }
-
-        return (new ControllerCaller($route, $params))->call();
+        return $route;
     }
 
     /**

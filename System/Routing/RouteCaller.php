@@ -13,16 +13,10 @@ abstract class RouteCaller
      */
     protected $route;
 
-    /**
-     * @var Collection
-     */
-    protected $values;
-
-    public function __construct(Route $route, Collection $values)
+    public function __construct(Route $route)
     {
         $this->route = $route;
-        $this->values = $values;
     }
 
-    abstract public function call();
+    abstract public function call(Collection $values);
 }
