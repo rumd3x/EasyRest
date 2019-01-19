@@ -2,7 +2,7 @@
 namespace EasyRest\System\Exceptions;
 
 use Exception;
-use EasyRest\System\Route;
+use EasyRest\System\Routing\Route;
 
 class InvalidRouteActionException extends Exception
 {
