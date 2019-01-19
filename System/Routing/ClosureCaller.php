@@ -7,6 +7,10 @@ use Tightenco\Collect\Support\Collection;
 
 class ClosureCaller extends RouteCaller implements RouteCallerInterface
 {
+    /**
+     * @param Collection $values
+     * @return mixed
+     */
     public function call(Collection $values)
     {
         $reflection = new ReflectionFunction($this->route->getAction());

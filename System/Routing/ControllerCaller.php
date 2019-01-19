@@ -13,6 +13,10 @@ class ControllerCaller extends RouteCaller implements RouteCallerInterface
      */
     protected $actions;
 
+    /**
+     * @param Collection $values
+     * @return mixed
+     */
     public function call(Collection $values)
     {
         if (!$controller = $this->getController($this->actions->get('controller'))) {

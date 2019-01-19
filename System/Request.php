@@ -58,11 +58,17 @@ final class Request
         header("Access-Control-Allow-Origin: $domain");
     }
 
+    /**
+     * @return string
+     */
     public function getMethod()
     {
         return strtoupper($this->method);
     }
 
+    /**
+     * @return Collection
+     */
     public function all()
     {
         $all = collect([]);

@@ -54,6 +54,9 @@ final class Core
         return $this;
     }
 
+    /**
+     * @return void
+     */
     private function toggleShowErrors()
     {
         if ($this->env->get('server') !== 'production') {

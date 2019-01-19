@@ -36,6 +36,10 @@ final class Injector
         }
     }
 
+    /**
+     * @param string $className
+     * @return mixed
+     */
     private function findClass(string $className)
     {
         if (class_exists($className)) {
