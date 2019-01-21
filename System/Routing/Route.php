@@ -75,6 +75,12 @@ final class Route
         return $this->action;
     }
 
+    private function addMiddleware($middleware)
+    {
+        $this->middlewares->push($middleware);
+        return $this;
+    }
+
     /**
      * @return Collection
      */

@@ -1,7 +1,10 @@
 <?php
 namespace EasyRest\System\Routing;
 
+use Closure;
 use EasyRest\System\Request;
+use EasyRest\System\Routing\Route;
+use EasyRest\System\Routing\CallerFinder;
 use Tightenco\Collect\Support\Collection;
 use EasyRest\System\Exceptions\RouteNotFoundException;
 
@@ -35,8 +38,40 @@ final class Router
     public function handle(Request $request)
     {
         $route = $this->findRoute($request);
-        $params = $this->makeRequestParams($request, $route);
-        $caller = (new CallerFinder($route))->getCaller()->call($params);
+
+        $this->queueMiddlewares($route, $request, function (Request $request) use ($route) {
+            $params = $this->makeRequestParams($request, $route);
+            (new CallerFinder($route))->getCaller()->call($params);
+        });
+    }
+
+    private function queueMiddlewares(Route $route, Request $request, Closure $final)
+    {
+        if ($route->getMiddlewares()->isEmpty()) {
+            return $final($request);
+        }
+
+        if ($route->getMiddlewares()->count() === 1) {
+            $middleware = (new MiddlewareFactory($route->getMiddlewares()->first()))->getMiddleware();
+            return $middleware->handle($request, $final);
+        }
+
+        $closures = collect([]);
+        foreach ($route->getMiddlewares()->reverse() as $key => $middleware) {
+            if ($key === $route->getMiddlewares()->count()-1) {
+                $closures->put($key, function (Request $request) use ($middleware, $final) {
+                    (new MiddlewareFactory($middleware))->getMiddleware()->handle($request, $final);
+                });
+                continue;
+            }
+
+            $closures->put($key, function (Request $request) use ($middleware, $closures, $key) {
+                (new MiddlewareFactory($middleware))->getMiddleware()->handle($request, $closures->get($key+1));
+            });
+        }
+
+        $call = $closures->sortKeys()->first();
+        return $call($request);
     }
 
     /**
