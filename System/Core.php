@@ -1,8 +1,6 @@
 <?php
 namespace EasyRest\System;
 
-use EasyRest\App\Kernel;
-
 final class Core
 {
     /**
