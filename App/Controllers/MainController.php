@@ -3,6 +3,7 @@ namespace EasyRest\App\Controllers;
 
 use EasyRest\System\Response\JsonResponse;
 use EasyRest\System\Controller;
+use EasyRest\System\Response\HtmlResponse;
 
 class MainController extends Controller
 {
@@ -13,6 +14,7 @@ class MainController extends Controller
 
     public function home()
     {
-        echo 'hi';
+        // (new HtmlResponse('test'));
+        (new HtmlResponse('script'))->withData(['teste' => 'aaaaa']);
     }
 }
