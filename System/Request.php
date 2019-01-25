@@ -37,7 +37,7 @@ final class Request
             return $value !== '';
         });
 
-        $this->payload = collect(array_diff($_GET, $_REQUEST));
+        $this->payload = collect(array_diff($_REQUEST, $_GET));
         $this->query = collect([]);
         $url = parse_url($_SERVER['REQUEST_URI']);
         if (isset($url['query'])) {
