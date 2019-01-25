@@ -17,4 +17,9 @@ class MainController extends Controller
         // (new HtmlResponse('test'));
         (new HtmlResponse('script'))->withData(['teste' => 'aaaaa']);
     }
+
+    public function teste($id)
+    {
+        (new JsonResponse($this->request))->pretty();
+    }
 }

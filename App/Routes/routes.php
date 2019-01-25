@@ -12,6 +12,7 @@ new Route(Route::GET, '/probe', function () {
 });
 
 new RouteGroup('/teste', [TrimString::class], [
+    [Route::POST, '/:id:', 'MainController@teste'],
     [Route::GET, '/', function () {
         echo 'aeeee';
     }],
