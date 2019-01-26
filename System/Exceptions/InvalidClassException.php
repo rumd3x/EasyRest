@@ -21,6 +21,6 @@ class InvalidClassException extends Exception
         $this->message = $message;
         $this->className = $className;
         $finalMessage = sprintf('Class "%s": %s', $this->className, $this->message);
-        parent::__construct($finalMessage, $previous ? $previous->getCode() : 0, $previous);
+        parent::__construct($finalMessage, 500, $previous);
     }
 }

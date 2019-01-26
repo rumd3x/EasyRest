@@ -13,7 +13,6 @@ class RouteNotFoundException extends Exception
 
     public function __construct(Request $request)
     {
-        header('HTTP/1.0 404 Not Found', true, 404);
         $this->request = $request;
         $finalMessage = sprintf('No route found for current url');
         parent::__construct($finalMessage, 404, null);

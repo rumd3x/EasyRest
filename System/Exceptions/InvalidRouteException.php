@@ -15,6 +15,6 @@ class InvalidRouteException extends Exception
     {
         $this->routeFile = $routeFile;
         $finalMessage = sprintf('Error adding route to router. Route File "%s" at line %d: %s', $this->routeFile, $previous->getLine(), $previous->getMessage());
-        parent::__construct($finalMessage, $previous->getCode(), $previous);
+        parent::__construct($finalMessage, 500, $previous);
     }
 }

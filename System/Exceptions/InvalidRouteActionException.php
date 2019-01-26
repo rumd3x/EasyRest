@@ -21,6 +21,6 @@ class InvalidRouteActionException extends Exception
         $this->message = $message;
         $this->route = $route;
         $finalMessage = sprintf('%s used by Route: "%s"', $this->message, $route->getUri());
-        parent::__construct($finalMessage, 0, null);
+        parent::__construct($finalMessage, 500, null);
     }
 }

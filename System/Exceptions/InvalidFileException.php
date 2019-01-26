@@ -20,6 +20,6 @@ class InvalidFileException extends Exception
         $this->message = $message;
         $this->filePath = $filePath;
         $finalMessage = sprintf('File "%s": %s', $this->filePath, $this->message);
-        parent::__construct($finalMessage, 0, null);
+        parent::__construct($finalMessage, 500, null);
     }
 }
