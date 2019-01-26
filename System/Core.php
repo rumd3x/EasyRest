@@ -3,6 +3,7 @@ namespace EasyRest\System;
 
 use Throwable;
 use EasyRest\System\Response\TextResponse;
+use EasyRest\System\Response\EmptyResponse;
 
 final class Core
 {
@@ -94,10 +95,11 @@ final class Core
             $this->router = $this->getInjector()->inject('Routing\Router');
             $this->router->handle($this->request);
         } catch (Throwable $th) {
-            (new TextResponse($th->getMessage()))->withStatus($th->getCode());
             if ($this->showErrors) {
+                (new TextResponse($th->getMessage()))->withStatus($th->getCode());
                 throw $th;
             }
+            (new EmptyResponse())->withStatus($th->getCode());
         }
     }
 }
