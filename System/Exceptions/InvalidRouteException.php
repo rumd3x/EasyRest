@@ -3,6 +3,7 @@ namespace EasyRest\System\Exceptions;
 
 use Exception;
 use Throwable;
+use EasyRest\System\Response\Response;
 
 class InvalidRouteException extends Exception
 {
@@ -15,6 +16,6 @@ class InvalidRouteException extends Exception
     {
         $this->routeFile = $routeFile;
         $finalMessage = sprintf('Error adding route to router. Route File "%s" at line %d: %s', $this->routeFile, $previous->getLine(), $previous->getMessage());
-        parent::__construct($finalMessage, 500, $previous);
+        parent::__construct($finalMessage, Response::INTERNAL_SERVER_ERROR, $previous);
     }
 }

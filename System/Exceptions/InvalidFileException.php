@@ -2,6 +2,7 @@
 namespace EasyRest\System\Exceptions;
 
 use Exception;
+use EasyRest\System\Response\Response;
 
 class InvalidFileException extends Exception
 {
@@ -20,6 +21,6 @@ class InvalidFileException extends Exception
         $this->message = $message;
         $this->filePath = $filePath;
         $finalMessage = sprintf('File "%s": %s', $this->filePath, $this->message);
-        parent::__construct($finalMessage, 500, null);
+        parent::__construct($finalMessage, Response::INTERNAL_SERVER_ERROR, null);
     }
 }

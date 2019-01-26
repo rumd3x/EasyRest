@@ -3,6 +3,7 @@ namespace EasyRest\System\Exceptions;
 
 use Exception;
 use EasyRest\System\Request;
+use EasyRest\System\Response\Response;
 
 class RouteNotFoundException extends Exception
 {
@@ -15,6 +16,6 @@ class RouteNotFoundException extends Exception
     {
         $this->request = $request;
         $finalMessage = sprintf('No route found for current url');
-        parent::__construct($finalMessage, 404, null);
+        parent::__construct($finalMessage, Response::NOT_FOUND, null);
     }
 }

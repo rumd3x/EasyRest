@@ -3,6 +3,7 @@ namespace EasyRest\System\Exceptions;
 
 use Exception;
 use Throwable;
+use EasyRest\System\Response\Response;
 
 class InvalidClassException extends Exception
 {
@@ -21,6 +22,6 @@ class InvalidClassException extends Exception
         $this->message = $message;
         $this->className = $className;
         $finalMessage = sprintf('Class "%s": %s', $this->className, $this->message);
-        parent::__construct($finalMessage, 500, $previous);
+        parent::__construct($finalMessage, Response::INTERNAL_SERVER_ERROR, $previous);
     }
 }
