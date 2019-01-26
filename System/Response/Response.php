@@ -44,6 +44,11 @@ abstract class Response
     const GATEWAY_TIMEOUT = 504;
     const HTTP_VERSION_NOT_SUPPORTED = 505;
 
+    /**
+     * Status code to be sent on the response
+     *
+     * @var integer
+     */
     protected $status = 200;
 
     abstract public function print();
@@ -82,7 +87,9 @@ abstract class Response
 
     public function __destruct()
     {
-        http_response_code($this->status);
+        if (http_response_code() === Response::OK || http_response_code() < $this->status) {
+            http_response_code($this->status);
+        }
         $this->send();
     }
 }
