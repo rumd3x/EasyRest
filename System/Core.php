@@ -1,6 +1,9 @@
 <?php
 namespace EasyRest\System;
 
+use Throwable;
+use EasyRest\System\Response\TextResponse;
+
 final class Core
 {
     /**
@@ -33,6 +36,11 @@ final class Core
      */
     public $kernel;
 
+    /**
+     * @var boolean
+     */
+    private $showErrors = false;
+
     public function __construct()
     {
         self::$injector = new Injector();
@@ -61,6 +69,7 @@ final class Core
             ini_set('display_errors', 1);
             ini_set('display_startup_errors', 1);
             error_reporting(E_ALL);
+            $this->showErrors = true;
         }
     }
 
@@ -79,9 +88,16 @@ final class Core
      */
     public function start()
     {
-        $this->kernel = $this->getInjector()->inject('Kernel');
-        $this->router = $this->getInjector()->inject(__NAMESPACE__.'\Routing\Router');
-        $this->request = $this->getInjector()->inject(__NAMESPACE__.'\Request');
-        $this->router->handle($this->request);
+        try {
+            $this->kernel = $this->getInjector()->inject('Kernel');
+            $this->request = $this->getInjector()->inject('Request');
+            $this->router = $this->getInjector()->inject('Routing\Router');
+            $this->router->handle($this->request);
+        } catch (Throwable $th) {
+            (new TextResponse($th->getMessage()))->withStatus($th->getCode());
+            if ($this->showErrors) {
+                throw $th;
+            }
+        }
     }
 }
